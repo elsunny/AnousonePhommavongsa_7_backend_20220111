@@ -3,7 +3,7 @@ const dotEnv = require('dotenv');
 
 dotEnv.config({ path:'config/.env' });
 
-
+/* tout ça je supprime plus besoin?
 const sequelize = new Sequelize(
     process.env.DB_NAME,
     "root",
@@ -13,5 +13,7 @@ const sequelize = new Sequelize(
         dialect: "mysql",
     }
 );
+*/
 
-module.exports = sequelize;
+//module.exports = sequelize; 
+module.exports = new Sequelize(process.env.DB);
