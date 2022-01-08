@@ -26,6 +26,8 @@ app.use(cookieParser());
 // a method inbuilt in express to recognize the incoming Request Object as a JSON Object
 app.use(express.json());
 
+app.use(express.static(__dirname + '/public/'));
+
 // check port validity
 const normalizePort = val => {
     const port = parseInt(val, 10);
