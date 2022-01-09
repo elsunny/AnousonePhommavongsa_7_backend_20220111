@@ -10,6 +10,8 @@ router.post('/login', controllerUser.login);
 router.put('/:id', authentification, multer, controllerUser.change);
 router.delete('/:id', authentification, multer, controllerUser.removeUser);
 
+router.post('/', controllerUser.giveUserInfo);
+
 
 module.exports = router;
  

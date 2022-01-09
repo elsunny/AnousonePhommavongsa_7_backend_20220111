@@ -2,7 +2,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const { Media, User } = require("../models");
 // const CommentModel = require("../models/media-model");
-const { getTokenUserId, areIdentique, removeDataFromDB, getRoleUser } = require("../utils/fonctions"); // les accolades permettent de récupérer une fonction précise dans le fichier
+const { getTokenUserId, areIdentique, removeDataFromDB, getRoleUser, getPseudoUser } = require("../utils/fonctions"); // les accolades permettent de récupérer une fonction précise dans le fichier
 
 // affiche toutes les photos ou videos
 exports.mediaDisplayAll = async (req, res) => {

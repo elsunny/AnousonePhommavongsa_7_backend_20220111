@@ -161,3 +161,17 @@ exports.removeUser = async (req, res) => {
         res.status(500).json({ message: "un problème est survenu", error });
     }
 };
+
+// donne les informations à partir de l'id d'un user
+exports.giveUserInfo = async (req, res) => {
+    try {
+        const userInfo = await User.findOne({
+            where: { id: req.body.id},
+        });
+        console.log('userInfo', userInfo);
+        res.status(200).send(userInfo);
+    }catch(error) {
+        console.log(error);
+        res.status(500).json({ message: 'un problème est survenu'})
+    }
+}

@@ -28,6 +28,20 @@ exports.getRoleUser = async (tokenId, dbUser) => {
     }
 };
 
+// trouve le pseudo de l'utilisateur
+exports.getPseudoUser = async (userId, dbUser) => {
+    try {
+        const pseudoUser = await dbUser.findOne({
+            where: {
+                id: userId,
+            },
+        });
+        return pseudoUser.pseudo;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 // vérifie que 2 id sont identiques
 exports.areIdentique = async (req, dbTable) => {
     try {
