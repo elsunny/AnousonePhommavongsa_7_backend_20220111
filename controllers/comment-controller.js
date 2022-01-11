@@ -10,28 +10,45 @@ exports.commentDisplayAll = async (req, res) => {
     try {
         const allComment = await Comment.findAll({
             where : {
-                mediaId: req.params.id,
+                mediumId: req.params.id,
             }
         });
-        res.status(200).json(allComment);
+        (allComment != null)? res.status(200).json(allComment) : console.log("sorry no comments");
+        
     } catch (error) {
         res.status(500).json({ error });
     }
 };
 
 // ajout d'un commentaire
+// exports.commentAdd = async (req, res) => {
+//     const { title, message } = req.body;
+//     const id = getTokenUserId(req);
+//     try {
+//         const comment = await Comment.create({
+//             MediumId: req.params.id,
+//             UserId: id,
+//             title,
+//             message,
+//         });
+//         res.status(200).send({ message: "commentaire publié", comment });
+//     } catch (error) {
+//         res.status(500).json({ message: "un problème est survenu", error });
+//     }
+// };
+
 exports.commentAdd = async (req, res) => {
-    const { title, message } = req.body;
+    const { message } = req.body;
     const id = getTokenUserId(req);
     try {
         const comment = await Comment.create({
             MediumId: req.params.id,
             UserId: id,
-            title,
             message,
         });
         res.status(200).send({ message: "commentaire publié", comment });
     } catch (error) {
+        console.log('error', error);
         res.status(500).json({ message: "un problème est survenu", error });
     }
 };

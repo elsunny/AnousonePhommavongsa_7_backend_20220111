@@ -168,7 +168,6 @@ exports.giveUserInfo = async (req, res) => {
         const userInfo = await User.findOne({
             where: { id: req.body.id},
         });
-        console.log('userInfo', userInfo);
         res.status(200).send(userInfo);
     }catch(error) {
         console.log(error);
