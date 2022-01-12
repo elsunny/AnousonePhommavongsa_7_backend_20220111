@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const userRoutes = require('./routes/user-routes');
 const mediaRoutes = require('./routes/media-routes');
 const commentRoutes = require('./routes/comment-routes');
+const adminRoutes = require('./routes/admin-routes');
 
 
 const app = express();
@@ -66,6 +67,7 @@ const normalizePort = val => {
     app.use('/api/user', userRoutes);
     app.use('/api/media', mediaRoutes);
     app.use('/api/comment', commentRoutes);
+    app.use('/api/admin', adminRoutes);
     // app.use('/api/likeDislike', likeDislikeRoutes);
     
     

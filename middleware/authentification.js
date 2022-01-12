@@ -16,7 +16,6 @@ module.exports = (req, res, next) => {
             throw 'token is missing';
         }
     } catch (error) {
-        console.error(error);
         res.status(401).json({
             error: error | "Requête non authentifiée !",
         });

@@ -87,4 +87,8 @@ exports.setCookie = (findUser, res) => {
     // mise en place d'un cookie pour la session d'un utilisateur
     res.cookie('userJwt', token, {maxAge: 1*24*60*60*1000, httpOnly: true}); // a ajouter lors de la mise en ligne sous https  httpOnly: true
 
+}// supprime un cookie documentation
+exports.removeCookie = (res) => {
+    res.cookie('userJwt',"", {maxAge: 1*1000, httpOnly: true}); // a ajouter lors de la mise en ligne sous https  httpOnly: true
+
 }

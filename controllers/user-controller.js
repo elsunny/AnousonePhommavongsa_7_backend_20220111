@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const dotEnv = require("dotenv");
 const cookie = require("cookie");
 const { User } = require("../models");
-const { setCookie } = require("../utils/fonctions");
+const { setCookie, removeCookie } = require("../utils/fonctions");
 
 const validator = require("email-validator");
 const isValidPassword = require("is-valid-password");
@@ -81,6 +81,17 @@ exports.login = async (req, res) => {
     } catch (error) {
         console.log("login catch error", error);
         res.status(500).json({ error });
+    }
+};
+
+// logout the user
+exports.logout = async (req, res) => {
+    try {
+        removeCookie(res);
+        res.status(200).json({message: "déconnexion"});
+    }
+    catch (error) {
+        res.status(500).json({error});
     }
 };
 
