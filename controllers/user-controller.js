@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const dotEnv = require("dotenv");
 const cookie = require("cookie");
 const { User } = require("../models");
-const { setCookie, removeCookie } = require("../utils/fonctions");
+const { setCookie, removeCookie, getPseudoUser } = require("../utils/fonctions");
 
 const validator = require("email-validator");
 const isValidPassword = require("is-valid-password");
@@ -12,7 +12,6 @@ const bcrypt = require("bcrypt");
 const { getTokenUserId, getRoleUser } = require("../utils/fonctions");
 
 dotEnv.config({ path: "/config/.env" });
-
 
 // check email and password
 const checkEntries = (mail, pwd) =>
@@ -65,13 +64,10 @@ exports.login = async (req, res) => {
             );
             if (validPassword) {
                 setCookie(findUser, res);
-                res
-                .status(200)
-                .json({
+                res.status(200).json({
                     user: findUser,
                     message: "password trouvé",
-                })
-
+                });
             } else {
                 res.status(401).json({ error: "mot de passe incorrect" });
             }
@@ -88,10 +84,19 @@ exports.login = async (req, res) => {
 exports.logout = async (req, res) => {
     try {
         removeCookie(res);
-        res.status(200).json({message: "déconnexion"});
+        res.status(200).json({ message: "déconnexion" });
+    } catch (error) {
+        res.status(500).json({ error });
     }
-    catch (error) {
-        res.status(500).json({error});
+};
+
+// give all the registered users
+exports.giveAllUsers = async (req, res) => {
+    try {
+        const allUsers = await User.findAll();
+        res.status(200).json(allUsers);
+    } catch (error) {
+        res.status(500).json({ error });
     }
 };
 
@@ -127,7 +132,7 @@ exports.change = async (req, res) => {
                         pseudo: req.body.pseudo,
                         imageUser: req.body.imageUser,
                         description: req.body.description,
-                        role: req.body.description
+                        role: req.body.description,
                     },
                     {
                         where: {
@@ -177,11 +182,42 @@ exports.removeUser = async (req, res) => {
 exports.giveUserInfo = async (req, res) => {
     try {
         const userInfo = await User.findOne({
-            where: { id: req.body.id},
+            where: { id: req.params.id },
         });
         res.status(200).send(userInfo);
-    }catch(error) {
+    } catch (error) {
         console.log(error);
-        res.status(500).json({ message: 'un problème est survenu'})
+        res.status(500).json({ message: "un problème est survenu" });
     }
-}
+};
+
+// donne les informations sur le user de la session
+exports.whoIsUser = async (req, res) => {
+    try {
+        const userSessionId = getTokenUserId($input.params('Cookie'));
+        const userSessionPseudo = await getPseudoUser(userSessionId, User);
+        res.status(200).json(userSessionId);
+
+    } catch (error) {
+        console.log("whoIsUser error", error);
+        res.status(500).json({ message: "un problème est survenu" });
+    }
+};
+
+
+// ajoute une image pour l'avatar
+exports.avatarImageAdd = async (req, res) => {
+    const id = getTokenUserId(req);
+    let avatarUrl = "";
+    req.file ? (avatarUrl = req.file.filename) : avatarUrl; // file to upload exist or not
+    try {
+        const avatarUser = await User.create({
+            filename: avatarUrl,
+            UserId: id,
+        });
+        res.status(200).json({message: "la photo avatar a bien été enregistré"});
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: "un problème est survenu", error });
+    }
+};

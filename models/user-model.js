@@ -19,7 +19,12 @@ const User = sequelize.define('User', {
         unique: true,
         allowNull: false,
     },
-    image : {
+    // ajout d'un fichier image pour l'avatar
+    // image : {
+    //     type: Sequelize.STRING,
+    //     allowNull: true,
+    // },
+    filename : {
         type: Sequelize.STRING,
         allowNull: true,
     },
