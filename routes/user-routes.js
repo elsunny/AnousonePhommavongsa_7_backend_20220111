@@ -6,7 +6,7 @@ const controllerUser = require('../controllers/user-controller');
 const avatarMulter = require('../middleware/avatarMulter-config');
 
 // display
-router.post('/signup', multer, controllerUser.signup);
+router.post('/signup', controllerUser.signup);
 router.post('/login', controllerUser.login);
 router.post('/logout', authentification, controllerUser.logout);
 router.put('/:id', authentification, multer, controllerUser.change);

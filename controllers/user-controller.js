@@ -35,10 +35,11 @@ exports.signup = async (req, res) => {
                 pseudo: pseudo,
                 email: email,
                 password: hashPassword,
-                imageUser: imageUser,
+                image: imageUser,
                 description: description,
             });
-            setCookie(user.email, res);
+            // setCookie(user.email, res);
+            setCookie(user, res);
             res.status(201).json({ message: "Bravo, vous êtes enregistré" });
         } else {
             res.status(400).json({
@@ -209,10 +210,10 @@ exports.whoIsUser = async (req, res) => {
 exports.avatarImageAdd = async (req, res) => {
     const id = getTokenUserId(req);
     let avatarUrl = "";
-    req.file ? (avatarUrl = req.file.filename) : avatarUrl; // file to upload exist or not
+    req.file ? (avatarUrl = req.file.image) : avatarUrl; // file to upload exist or not
     try {
         const avatarUser = await User.create({
-            filename: avatarUrl,
+            image: avatarUrl,
             UserId: id,
         });
         res.status(200).json({message: "la photo avatar a bien été enregistré"});
