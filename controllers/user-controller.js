@@ -3,7 +3,11 @@ const jwt = require("jsonwebtoken");
 const dotEnv = require("dotenv");
 const cookie = require("cookie");
 const { User } = require("../models");
-const { setCookie, removeCookie, getPseudoUser } = require("../utils/fonctions");
+const {
+    setCookie,
+    removeCookie,
+    getPseudoUser,
+} = require("../utils/fonctions");
 
 const validator = require("email-validator");
 const isValidPassword = require("is-valid-password");
@@ -185,7 +189,13 @@ exports.giveUserInfo = async (req, res) => {
         const userInfo = await User.findOne({
             where: { id: req.params.id },
         });
-        res.status(200).send(userInfo);
+        res.header("cache-control", "max-age=5");
+        res.status(200).send({
+            id: userInfo.id,
+            pseudo: userInfo.pseudo,
+            image: userInfo.image,
+            description: userInfo.description,
+        });
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: "un problème est survenu" });
@@ -195,28 +205,32 @@ exports.giveUserInfo = async (req, res) => {
 // donne les informations sur le user de la session
 exports.whoIsUser = async (req, res) => {
     try {
-        const userSessionId = getTokenUserId($input.params('Cookie'));
-        const userSessionPseudo = await getPseudoUser(userSessionId, User);
-        res.status(200).json(userSessionId);
-
+        const userSessionId = getTokenUserId(req);
+        const userInfo = await User.findOne({
+            where: { id: userSessionId },
+        });
+        res.status(200).json(userInfo);
     } catch (error) {
         console.log("whoIsUser error", error);
         res.status(500).json({ message: "un problème est survenu" });
     }
 };
 
-
 // ajoute une image pour l'avatar
 exports.avatarImageAdd = async (req, res) => {
     const id = getTokenUserId(req);
     let avatarUrl = "";
-    req.file ? (avatarUrl = req.file.image) : avatarUrl; // file to upload exist or not
+    if (req.file) avatarUrl = req.file.filename;
+    console.log('avatar', avatarUrl);
     try {
-        const avatarUser = await User.create({
-            image: avatarUrl,
-            UserId: id,
+        const userInfo = await User.findOne({
+            where: { id: req.params.id },
         });
-        res.status(200).json({message: "la photo avatar a bien été enregistré"});
+        userInfo.image = avatarUrl;
+        await userInfo.save();
+        res.status(200).json({
+            message: "la photo avatar a bien été enregistré",
+        });
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: "un problème est survenu", error });

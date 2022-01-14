@@ -68,7 +68,6 @@ const normalizePort = val => {
     app.use('/api/media', mediaRoutes);
     app.use('/api/comment', commentRoutes);
     app.use('/api/admin', adminRoutes);
-    // app.use('/api/likeDislike', likeDislikeRoutes);
     
     
     // launch server

@@ -16,7 +16,7 @@ const storage = avatarMulter.diskStorage ({
     destination: (req, file, callback) => {
         callback(null, 'public/avatarImage'); //null ne prend pas en compte d'erreur
     },
-    image: (req, file, callback) =>  {
+    filename: (req, file, callback) =>  {
         const extension = MIME_TYPES[file.mimetype];
         const name = path.basename(file.originalname.split(' ').join('_'), extension);
         callback(null, name + Date.now() + '.' + extension);
