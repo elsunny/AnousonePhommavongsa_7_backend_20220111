@@ -41,8 +41,8 @@ exports.commentAdd = async (req, res) => {
 exports.commentRemove = async (req, res) => {
     try {
         // user doit avoir créer le commentaire pour pouvoir le supprimer
-        if(await areIdentique(req, Comment)) {
-            await removeDataFromDB(req, Comment);
+        if(await areIdentique(req.params.id, Comment)) {
+            await removeDataFromDB(req.params.id, Comment);
             res.status(200).json({ message: "votre commentaire a été supprimé" });
         }
         else {
@@ -59,7 +59,7 @@ exports.commentRemove = async (req, res) => {
             } else {
                 res.status(200).json({
                     message:
-                        "vous ne pouvez pas supprimer le média créé par un autre utilisateur",
+                        "vous ne pouvez pas supprimer le commentaire créé par un autre utilisateur",
                 });
             }
         }

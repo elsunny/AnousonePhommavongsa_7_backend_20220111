@@ -41,13 +41,13 @@ exports.getPseudoUser = async (userId, dbUser) => {
     }
 };
 
-// vérifie que 2 id sont identiques
-exports.areIdentique = async (req, dbTable) => {
+// vérifie que 2 user id sont identiques
+exports.areIdentique = async (commentId, dbTable) => {
     try {
-        const sessionUserId = getTokenUserId(req);
-        const creatorUser = await dbTable.findOne({
+        const sessionUserId = getTokenUserId(req); // user de sessioj
+        const creatorUser = await dbTable.findOne({ // user dans la BDD
             where: {
-                id: req.params.id,
+                id: commentId,
             },
         });
         if (creatorUser.UserId === sessionUserId) {
@@ -56,14 +56,29 @@ exports.areIdentique = async (req, dbTable) => {
     } catch (error) {
         console.log(error);
     }
+// // vérifie que 2 id sont identiques
+// exports.areIdentique = async (req, dbTable) => {
+//     try {
+//         const sessionUserId = getTokenUserId(req);
+//         const creatorUser = await dbTable.findOne({
+//             where: {
+//                 id: req.params.id,
+//             },
+//         });
+//         if (creatorUser.UserId === sessionUserId) {
+//             return true;
+//         } else return false;
+//     } catch (error) {
+//         console.log(error);
+//     }
 };
 
 // supprime une donnée dans une table
-exports.removeDataFromDB = async (req, dbTable) => {
+exports.removeDataFromDB = async (commentId, dbTable) => {
     try {
         await dbTable.destroy({
             where: {
-                id: req.params.id,
+                id: commentId,
             },
         });
     } catch (error) {
