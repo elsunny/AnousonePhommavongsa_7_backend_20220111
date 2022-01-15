@@ -2,7 +2,6 @@ const jwt = require("jsonwebtoken");
 
 // récupère l'id de l'utilisateur dans le token
 exports.getTokenUserId = (req) => {
-    // const token = req.headers.authorization.split(" ")[1];
     const token = req.cookies.userJwt;
     const decodedToken = jwt.decode(token, { complete: true });
     return decodedToken.payload.id;
