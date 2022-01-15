@@ -41,8 +41,8 @@ exports.commentAdd = async (req, res) => {
 exports.commentRemove = async (req, res) => {
     try {
         // user doit avoir créer le commentaire pour pouvoir le supprimer
-        if(await areIdentique(req.params.id, Comment)) {
-            await removeDataFromDB(req.params.id, Comment);
+        if(await areIdentique(req, Comment)) {
+            await removeDataFromDB(req, Comment);
             res.status(200).json({ message: "votre commentaire a été supprimé" });
         }
         else {
