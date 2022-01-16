@@ -92,3 +92,11 @@ exports.removeCookie = (res) => {
     res.cookie('userJwt',"", {maxAge: 1*1000, httpOnly: true}); // a ajouter lors de la mise en ligne sous https  httpOnly: true
 
 }
+
+exports.getPublicUser = (user) => ({
+        id: user.id,
+        pseudo: user.pseudo,
+        image: user.image,
+        description: user.description,
+        role: user.role
+})

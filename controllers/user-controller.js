@@ -7,6 +7,7 @@ const {
     setCookie,
     removeCookie,
     getPseudoUser,
+    getPublicUser,
 } = require("../utils/fonctions");
 
 const validator = require("email-validator");
@@ -44,7 +45,7 @@ exports.signup = async (req, res) => {
             });
             // setCookie(user.email, res);
             setCookie(user, res);
-            res.status(201).json({ message: "Bravo, vous êtes enregistré" });
+            res.status(201).send(getPublicUser(user));
         } else {
             res.status(400).json({
                 message:
@@ -69,10 +70,7 @@ exports.login = async (req, res) => {
             );
             if (validPassword) {
                 setCookie(findUser, res);
-                res.status(200).json({
-                    user: findUser,
-                    message: "password trouvé",
-                });
+                res.status(200).send(getPublicUser(findUser));
             } else {
                 res.status(401).json({ error: "mot de passe incorrect" });
             }
@@ -190,12 +188,7 @@ exports.giveUserInfo = async (req, res) => {
             where: { id: req.params.id },
         });
         res.header("cache-control", "max-age=5");
-        res.status(200).send({
-            id: userInfo.id,
-            pseudo: userInfo.pseudo,
-            image: userInfo.image,
-            description: userInfo.description,
-        });
+        res.status(200).send(getPublicUser(userInfo));
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: "un problème est survenu" });
@@ -209,7 +202,7 @@ exports.whoIsUser = async (req, res) => {
         const userInfo = await User.findOne({
             where: { id: userSessionId },
         });
-        res.status(200).json(userInfo);
+        res.status(200).send(getPublicUser(userInfo));
     } catch (error) {
         console.log("whoIsUser error", error);
         res.status(500).json({ message: "un problème est survenu" });
@@ -221,12 +214,16 @@ exports.avatarImageAdd = async (req, res) => {
     const id = getTokenUserId(req);
     let avatarUrl = "";
     if (req.file) avatarUrl = req.file.filename;
-    console.log('avatar', avatarUrl);
+    console.log("avatar", avatarUrl);
     try {
         const userInfo = await User.findOne({
             where: { id: req.params.id },
         });
-        userInfo.image = avatarUrl;
+        if (avatarUrl) {
+            userInfo.image = avatarUrl;
+        }
+        userInfo.pseudo = req.body.pseudo;
+        userInfo.description = req.body.description;
         await userInfo.save();
         res.status(200).json({
             message: "la photo avatar a bien été enregistré",

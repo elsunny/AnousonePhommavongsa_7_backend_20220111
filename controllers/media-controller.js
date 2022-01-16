@@ -7,7 +7,7 @@ const { getTokenUserId, areIdentique, removeDataFromDB, getRoleUser, getPseudoUs
 // affiche toutes les photos ou videos
 exports.mediaDisplayAll = async (req, res) => {
     try {
-        const allMedia = await Media.findAll();
+        const allMedia = await Media.findAll({order:[['createdAt','DESC']]});
         res.status(200).json(allMedia);
     } catch (error) {
         res.status(500).json({ error });

@@ -1,16 +1,25 @@
+const User = require("../models/user-model");
+
 const jwt = require("jsonwebtoken");
 
 require('dotenv').config({ path:'/config/.env'});
 
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
     try {
         const token = req.cookies.userJwt;
         if(token) {
             const decodedToken = jwt.verify(token, process.env.JWT_SECRET);  
-            const findUser = decodedToken.id;
-            if (req.body.id && req.body.id !== findUser.id) {
+            const userId = decodedToken.id;
+            
+            const user = await User.findOne({
+                where: {
+                    id: userId,
+                },
+            });
+            if (!user) {
                 throw "Invalid user ID";
             }
+            req.user = user;
             next();
         } else {
             throw 'token is missing';
