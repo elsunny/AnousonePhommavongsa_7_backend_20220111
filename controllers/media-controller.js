@@ -10,7 +10,7 @@ exports.mediaDisplayAll = async (req, res) => {
         const allMedia = await Media.findAll({order:[['createdAt','DESC']]});
         res.status(200).json(allMedia);
     } catch (error) {
-        res.status(500).json({ error });
+        res.status(404).json({ error });
     }
 };
 
@@ -31,7 +31,7 @@ exports.mediaAdd = async (req, res) => {
         res.status(200).send(media);
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: "un problème est survenu", error });
+        res.status(404).json({ message: "un problème est survenu", error });
     }
 };
 
@@ -41,7 +41,7 @@ exports.mediaDisplayOne = async (req, res) => {
         const foundOneMedia = await Media.findByPk(req.params.id);
         res.status(200).json(foundOneMedia);
     } catch (error) {
-        res.status(500).json({ message: "un problème est survenu", error });
+        res.status(404).json({ message: "un problème est survenu", error });
     }
 };
 
@@ -73,7 +73,7 @@ exports.mediaRemove = async (req, res) => {
         }
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: "un problème est survenu", error });
+        res.status(404).json({ message: "un problème est survenu", error });
     }
 };
 

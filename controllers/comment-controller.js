@@ -21,7 +21,7 @@ exports.commentDisplayAll = async (req, res) => {
             ? res.status(200).json(allComment)
             : console.log("sorry no comments");
     } catch (error) {
-        res.status(500).json({ error });
+        res.status(404).json({ error });
     }
 };
 
@@ -37,7 +37,7 @@ exports.commentAdd = async (req, res) => {
         res.status(200).send(comment);
     } catch (error) {
         console.log("error", error);
-        res.status(500).json({ message: "un problème est survenu", error });
+        res.status(404).json({ message: "un problème est survenu", error });
     }
 };
 
@@ -67,6 +67,6 @@ exports.commentRemove = async (req, res) => {
         
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: "un problème est survenu" });
+        res.status(404).json({ message: "un problème est survenu" });
     }
 };

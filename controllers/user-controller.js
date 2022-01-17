@@ -53,7 +53,7 @@ exports.signup = async (req, res) => {
             });
         }
     } catch (error) {
-        res.status(500).json({ error });
+        res.status(404).json({ error });
     }
 };
 
@@ -79,7 +79,7 @@ exports.login = async (req, res) => {
         }
     } catch (error) {
         console.log("login catch error", error);
-        res.status(500).json({ error });
+        res.status(404).json({ error });
     }
 };
 
@@ -89,7 +89,7 @@ exports.logout = async (req, res) => {
         removeCookie(res);
         res.status(200).json({ message: "déconnexion" });
     } catch (error) {
-        res.status(500).json({ error });
+        res.status(404).json({ error });
     }
 };
 
@@ -99,7 +99,7 @@ exports.giveAllUsers = async (req, res) => {
         const allUsers = await User.findAll();
         res.status(200).json(allUsers);
     } catch (error) {
-        res.status(500).json({ error });
+        res.status(404).json({ error });
     }
 };
 
@@ -154,7 +154,7 @@ exports.change = async (req, res) => {
         }
     } catch (error) {
         console.log(error);
-        res.status(500).json({ error });
+        res.status(404).json({ error });
     }
 };
 
@@ -177,7 +177,7 @@ exports.removeUser = async (req, res) => {
         }
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: "un problème est survenu", error });
+        res.status(404).json({ message: "un problème est survenu", error });
     }
 };
 
@@ -191,7 +191,7 @@ exports.giveUserInfo = async (req, res) => {
         res.status(200).send(getPublicUser(userInfo));
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: "un problème est survenu" });
+        res.status(404).json({ message: "un problème est survenu" });
     }
 };
 
@@ -204,7 +204,7 @@ exports.whoIsUser = async (req, res) => {
         });
         res.status(200).send(getPublicUser(userInfo));
     } catch (error) {
-        res.status(500).json({ message: "un problème est survenu" });
+        res.status(404).json({ message: "un problème est survenu" });
     }
 };
 
@@ -229,6 +229,6 @@ exports.avatarImageAdd = async (req, res) => {
         });
     } catch (error) {
         console.log(error);
-        res.status(500).json({ message: "un problème est survenu", error });
+        res.status(404).json({ message: "un problème est survenu", error });
     }
 };
