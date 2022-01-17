@@ -204,7 +204,6 @@ exports.whoIsUser = async (req, res) => {
         });
         res.status(200).send(getPublicUser(userInfo));
     } catch (error) {
-        console.log("whoIsUser error", error);
         res.status(500).json({ message: "un problème est survenu" });
     }
 };

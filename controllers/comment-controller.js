@@ -15,6 +15,7 @@ exports.commentDisplayAll = async (req, res) => {
             where: {
                 mediumId: req.params.mediaId,
             },
+            order:[['createdAt','DESC']],
         });
         allComment != null
             ? res.status(200).json(allComment)

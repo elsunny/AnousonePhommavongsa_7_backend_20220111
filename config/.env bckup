@@ -1,9 +1,0 @@
-PORT=4000
-DB_URI=mysql://root:kG5MZp7!5w3#cxJ%@localhost:3306/p7_oc_social_network
-DB_NAME="p7_oc_social_network"
-DB_PASSWORD="kG5MZp7!5w3#cxJ%"
-JWT_SECRET="put_a_random_token_secret"
-BCRYPT_SECRET="monReseauSocial"
-BCRYPT_SALT_ROUND=10
-BCRYPT_SALT="satltSecret"
-COOKIE_SECRET="a funny project"
