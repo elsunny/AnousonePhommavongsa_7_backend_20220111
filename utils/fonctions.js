@@ -7,12 +7,6 @@ exports.getTokenUserId = (req) => {
     return decodedToken.payload.id;
 };
 
-// récupère la date de création de l'entrée dans la bdd
-exports.getEntryDate = async (id, Table) => {
-    const date = await Table.findByPk(id);
-    return date.createdAt;
-};
-
 // vérifie le role de l'utilisateur
 exports.getRoleUser = async (tokenId, dbUser) => {
     try {
@@ -26,21 +20,6 @@ exports.getRoleUser = async (tokenId, dbUser) => {
         console.log(error);
     }
 };
-
-// trouve le pseudo de l'utilisateur
-exports.getPseudoUser = async (userId, dbUser) => {
-    try {
-        const pseudoUser = await dbUser.findOne({
-            where: {
-                id: userId,
-            },
-        });
-        return pseudoUser.pseudo;
-    } catch (error) {
-        console.log(error);
-    }
-};
-
 
 // vérifie que 2 id sont identiques
 exports.areIdentique = async (req, dbTable) => {
@@ -70,8 +49,7 @@ exports.removeDataFromDB = async (req, dbTable) => {
     } catch (error) {
         console.log(error);
     }
-}
-
+};
 
 // création d'un cookie d'identification
 exports.setCookie = (findUser, res) => {
@@ -85,18 +63,19 @@ exports.setCookie = (findUser, res) => {
         }
     );
     // mise en place d'un cookie pour la session d'un utilisateur
-    res.cookie('userJwt', token, {maxAge: 1*24*60*60*1000, httpOnly: true}); // a ajouter lors de la mise en ligne sous https  httpOnly: true
-
-}// supprime un cookie documentation
+    res.cookie("userJwt", token, {
+        maxAge: 1 * 24 * 60 * 60 * 1000,
+        httpOnly: true,
+    });
+}; // supprime un cookie documentation
 exports.removeCookie = (res) => {
-    res.cookie('userJwt',"", {maxAge: 1*1000, httpOnly: true}); // a ajouter lors de la mise en ligne sous https  httpOnly: true
-
-}
+    res.cookie("userJwt", "", { maxAge: 1 * 1000, httpOnly: true });
+};
 
 exports.getPublicUser = (user) => ({
-        id: user.id,
-        pseudo: user.pseudo,
-        image: user.image,
-        description: user.description,
-        role: user.role
-})
+    id: user.id,
+    pseudo: user.pseudo,
+    image: user.image,
+    description: user.description,
+    role: user.role,
+});

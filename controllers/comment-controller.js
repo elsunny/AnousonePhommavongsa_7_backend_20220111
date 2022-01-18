@@ -3,9 +3,6 @@ const jwt = require("jsonwebtoken");
 const { User, Comment } = require("../models");
 const {
     getTokenUserId,
-    areIdentique,
-    removeDataFromDB,
-    getRoleUser,
 } = require("../utils/fonctions");
 
 // affiche tout les commentaires d'un média
@@ -25,6 +22,7 @@ exports.commentDisplayAll = async (req, res) => {
     }
 };
 
+// ajoute un commentaire à un média
 exports.commentAdd = async (req, res) => {
     const { message } = req.body;
     const id = getTokenUserId(req);

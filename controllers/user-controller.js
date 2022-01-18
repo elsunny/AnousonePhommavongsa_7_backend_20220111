@@ -6,7 +6,6 @@ const { User } = require("../models");
 const {
     setCookie,
     removeCookie,
-    getPseudoUser,
     getPublicUser,
     getTokenUserId,
     getRoleUser,

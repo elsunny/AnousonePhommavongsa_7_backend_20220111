@@ -7,7 +7,6 @@ const {
     areIdentique,
     removeDataFromDB,
     getRoleUser,
-    getPseudoUser,
 } = require("../utils/fonctions"); // les accolades permettent de récupérer une fonction précise dans le fichier
 
 // affiche toutes les photos ou videos
