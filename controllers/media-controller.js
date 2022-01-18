@@ -2,12 +2,20 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const { Media, User } = require("../models");
 // const CommentModel = require("../models/media-model");
-const { getTokenUserId, areIdentique, removeDataFromDB, getRoleUser, getPseudoUser } = require("../utils/fonctions"); // les accolades permettent de récupérer une fonction précise dans le fichier
+const {
+    getTokenUserId,
+    areIdentique,
+    removeDataFromDB,
+    getRoleUser,
+    getPseudoUser,
+} = require("../utils/fonctions"); // les accolades permettent de récupérer une fonction précise dans le fichier
 
 // affiche toutes les photos ou videos
 exports.mediaDisplayAll = async (req, res) => {
     try {
-        const allMedia = await Media.findAll({order:[['createdAt','DESC']]});
+        const allMedia = await Media.findAll({
+            order: [["createdAt", "DESC"]],
+        });
         res.status(200).json(allMedia);
     } catch (error) {
         res.status(404).json({ error });
@@ -19,7 +27,7 @@ exports.mediaAdd = async (req, res) => {
     const { title, description } = req.body;
     const id = getTokenUserId(req);
     let mediaUrl = "";
-    req.file ? (mediaUrl = req.file.filename) : mediaUrl; // file to upload exist or not
+    req.file ? (mediaUrl = req.file.filename) : mediaUrl; 
     try {
         const media = await Media.create({
             title,
@@ -27,10 +35,8 @@ exports.mediaAdd = async (req, res) => {
             filename: mediaUrl,
             UserId: id,
         });
-        // console.log('media', media);
         res.status(200).send(media);
     } catch (error) {
-        console.log(error);
         res.status(404).json({ message: "un problème est survenu", error });
     }
 };
@@ -49,13 +55,15 @@ exports.mediaDisplayOne = async (req, res) => {
 exports.mediaRemove = async (req, res) => {
     try {
         // user doit avoir créer le commentaire pour pouvoir le supprimer
-        if(await areIdentique(req, Media)) {
+        if (await areIdentique(req, Media)) {
             await removeDataFromDB(req, Media);
             res.status(200).json({ message: "votre média a été supprimé" });
-        }
-        else {
+        } else {
             // check if user session has an admin or moderator role and can delete media
-            const sessionRoleUser = await getRoleUser(getTokenUserId(req), User);
+            const sessionRoleUser = await getRoleUser(
+                getTokenUserId(req),
+                User
+            );
             if (
                 sessionRoleUser === "admin" ||
                 sessionRoleUser === "moderator"
@@ -72,8 +80,6 @@ exports.mediaRemove = async (req, res) => {
             }
         }
     } catch (error) {
-        console.log(error);
         res.status(404).json({ message: "un problème est survenu", error });
     }
 };
-

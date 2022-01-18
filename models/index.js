@@ -2,6 +2,8 @@ const Media = require('./media-model');
 const Comment = require('./comment-model');
 const User = require('./user-model');
 
+
+// Définition des relations entre les tables User, Medi, Comment 
 User.hasMany(Media, {
     onDelete: 'CASCADE'
 })

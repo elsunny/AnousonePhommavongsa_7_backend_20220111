@@ -14,7 +14,7 @@ const MIME_TYPES = {
 const storage = avatarMulter.diskStorage ({
     
     destination: (req, file, callback) => {
-        callback(null, 'public/avatarImage'); //null ne prend pas en compte d'erreur
+        callback(null, process.env.IMG_AVATAR); //null ne prend pas en compte d'erreur
     },
     filename: (req, file, callback) =>  {
         const extension = MIME_TYPES[file.mimetype];

@@ -1,11 +1,10 @@
 const router = require('express').Router();
 const authentification = require('../middleware/authentification');
 const multer = require('../middleware/multer-config');
-
 const controllerUser = require('../controllers/user-controller');
 const avatarMulter = require('../middleware/avatarMulter-config');
 
-// display
+// user routes
 router.post('/signup', controllerUser.signup);
 router.post('/login', controllerUser.login);
 router.post('/logout', authentification, controllerUser.logout);

@@ -8,14 +8,16 @@ const {
     removeCookie,
     getPseudoUser,
     getPublicUser,
+    getTokenUserId,
+    getRoleUser,
 } = require("../utils/fonctions");
+const bcrypt = require("bcrypt");
 
+// check form entries
 const validator = require("email-validator");
 const isValidPassword = require("is-valid-password");
 
-const bcrypt = require("bcrypt");
-const { getTokenUserId, getRoleUser } = require("../utils/fonctions");
-
+// environnement variables
 dotEnv.config({ path: "/config/.env" });
 
 // check email and password
@@ -29,7 +31,7 @@ const checkEntries = (mail, pwd) =>
 // at least 1 number
 // optional special character [!@#$%^&*]
 
-// record in database new user
+// signup record in database new user, hash the password and set cookie
 exports.signup = async (req, res) => {
     try {
         const { pseudo, email, password, imageUser, description } = req.body;
@@ -43,7 +45,6 @@ exports.signup = async (req, res) => {
                 image: imageUser,
                 description: description,
             });
-            // setCookie(user.email, res);
             setCookie(user, res);
             res.status(201).send(getPublicUser(user));
         } else {
@@ -57,7 +58,7 @@ exports.signup = async (req, res) => {
     }
 };
 
-// check user then login user
+// check user when login
 exports.login = async (req, res) => {
     try {
         const findUser = await User.findOne({

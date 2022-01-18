@@ -4,11 +4,9 @@ const dotEnv = require('dotenv');
 const sequelize = require('./config/database');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
-
 const userRoutes = require('./routes/user-routes');
 const mediaRoutes = require('./routes/media-routes');
 const commentRoutes = require('./routes/comment-routes');
-const adminRoutes = require('./routes/admin-routes');
 
 
 const app = express();
@@ -42,6 +40,7 @@ const normalizePort = val => {
     return false;
   };
   
+  // définition du port de connection
   const port = normalizePort(process.env.PORT || '4000');
 
   // check database connection
@@ -57,7 +56,6 @@ const normalizePort = val => {
   sequelize
     .sync()
     .then((result) => {
-      //console.log(result);
     }).catch((err) => {
       console.error(err);
     });
@@ -67,7 +65,6 @@ const normalizePort = val => {
     app.use('/api/user', userRoutes);
     app.use('/api/media', mediaRoutes);
     app.use('/api/comment', commentRoutes);
-    app.use('/api/admin', adminRoutes);
     
     
     // launch server

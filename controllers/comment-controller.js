@@ -36,7 +36,6 @@ exports.commentAdd = async (req, res) => {
         });
         res.status(200).send(comment);
     } catch (error) {
-        console.log("error", error);
         res.status(404).json({ message: "un problème est survenu", error });
     }
 };
@@ -66,7 +65,6 @@ exports.commentRemove = async (req, res) => {
         }
         
     } catch (error) {
-        console.log(error);
         res.status(404).json({ message: "un problème est survenu" });
     }
 };

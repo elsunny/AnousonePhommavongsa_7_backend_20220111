@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../config/database');
 
-
+// création de la table pour les posts
 const Media = sequelize.define('Media', {
     title : {
         type: Sequelize.STRING,

@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../config/database');
 
+// création de la table pour les utilisateurs
 const User = sequelize.define('User', {
     pseudo : {
         type: Sequelize.STRING,
@@ -19,11 +20,6 @@ const User = sequelize.define('User', {
         unique: true,
         allowNull: false,
     },
-    // ajout d'un fichier image pour l'avatar
-    // image : {
-    //     type: Sequelize.STRING,
-    //     allowNull: true,
-    // },
     image : {
         type: Sequelize.STRING,
         allowNull: true,
