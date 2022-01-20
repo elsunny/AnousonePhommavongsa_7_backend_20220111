@@ -65,7 +65,7 @@ exports.setCookie = (findUser, res) => {
     // mise en place d'un cookie pour la session d'un utilisateur
     res.cookie("userJwt", token, {
         maxAge: 1 * 24 * 60 * 60 * 1000,
-        httpOnly: true,
+        httpOnly: true, // empêche javascript d’accéder au cookie au niveau du front,  le cookie reste manipulable dans le backend 
     });
 }; // supprime un cookie documentation
 exports.removeCookie = (res) => {

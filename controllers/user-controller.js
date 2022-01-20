@@ -24,7 +24,7 @@ const checkEntries = (mail, pwd) =>
     Boolean(validator.validate(mail) && isValidPassword(pwd));
 
 // define your password as this
-// 8-32 characters
+// 8-16 characters
 // at least one lowercase letter
 // at least one uppercase letter
 // at least 1 number

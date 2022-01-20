@@ -24,8 +24,6 @@ Veuillez y initialiser les variables suivantes:
 
 - COOKIE_SECRET= *( avec votre clef secrete entre "" )*
 
-- IMG_AVATAR= *( chemin vers le répertoire de sauvegarde "" )*
-- IMG_MEDIA= *( chemin vers le répertoire de sauvegarde "" )*
 
 Lancer le server avec npm start dans votre terminal.
 
@@ -35,4 +33,4 @@ Node js, javascript, Sequelize
 
 ## Type de base de donnée
 
-SQL (SQLITE)
+SQL 
